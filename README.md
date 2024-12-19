@@ -8,7 +8,7 @@ This Python application demonstrates how to integrate Groq's API to handle funct
 
 ## Usage
 ```
-### Interact with the Application
+- Interact with the Application
 - The application will prompt you to enter arithmetic queries.
 - Examples:
   - `Add 10 and 20`
