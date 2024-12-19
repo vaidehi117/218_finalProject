@@ -1,6 +1,6 @@
 # 218_finalProject
 
-# Groq Function Chat - Arithmetic Operations
+## Groq API Function Calling 
 
 This Python application demonstrates how to integrate Groq's API to handle function calls for performing basic arithmetic operations: addition, subtraction, multiplication, and division. Users can interact with the application through a console-based chat interface, where their queries are processed using Groq's API.
 
@@ -11,10 +11,10 @@ This Python application demonstrates how to integrate Groq's API to handle funct
 - Interact with the Application
 - The application will prompt you to enter arithmetic queries.
 - Examples:
-  - `Add 10 and 20`
-  - `Divide 50 by 5`
+  - Add 10 and 20
+  - Divide 50 by 5
 
-- Type `exit` or `quit` to end the session.
+- Type **exit** or **quit** to end the session.
 ```
 
 ## Example Interaction
@@ -32,3 +32,5 @@ Result: Error: Division by zero
 You: quit
 Goodbye!
 ```
+---
+
