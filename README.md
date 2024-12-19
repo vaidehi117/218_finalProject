@@ -15,8 +15,9 @@ This Python application demonstrates how to integrate Groq's API to handle funct
   - `Divide 50 by 5`
 
 - Type `exit` or `quit` to end the session.
+```
 
-### Example Interaction
+## Example Interaction
 ```
 Welcome to the Groq Function Chat!
 You can ask the system to perform addition, subtraction, multiplication, or division.
