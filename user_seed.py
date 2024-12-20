@@ -107,7 +107,6 @@ def seed_users(count: int):
     print("Creating tables if they don't exist...")
     # Create tables if they don't exist
     Base.metadata.create_all(engine)
-
     session = Session()
     try:
         print("Fetching existing emails and usernames to prevent duplicates...")
