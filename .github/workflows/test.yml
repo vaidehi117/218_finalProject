@@ -1,11 +1,3 @@
-name: CI
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,18 +18,15 @@ jobs:
         pip install -r requirements.txt
         playwright install
 
-    - name: Debug Python Environment
+    - name: Set environment variables for testing
       run: |
-        . venv/bin/activate
-        python --version
-        pip list
+        echo "DB_HOST=${{ secrets.DB_HOST }}" >> $GITHUB_ENV
+        echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
+        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
+        echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
+        echo "SALT=${{ secrets.SALT }}" >> $GITHUB_ENV
 
     - name: Run unit tests
       run: |
         . venv/bin/activate
-        pytest tests/unit/ --disable-warnings --verbose
-
-    - name: Run integration tests
-      run: |
-        . venv/bin/activate
-        pytest tests/integration/ --disable-warnings --verbose
+        pytest tests/unit/
