@@ -8,27 +8,31 @@ This repository contains a Python-based test suite for validating the functional
 
 **Functions Tested:**
 1. Addition (add):
-Positive and negative integers
-Floats
-Edge case: Adding zero
+- Positive and negative integers
+- Floats
+- Edge case: Adding zero
+
 ![Alt text](<Screenshot from 2024-12-19 20-49-07.png>)
 
 **Subtraction (subtract):**
-Positive and negative integers
-Floats
-Edge case: Subtracting zero
+- Positive and negative integers
+- Floats
+- Edge case: Subtracting zero
+
 ![Alt text](<Screenshot from 2024-12-19 20-49-15.png>)
 
 **Multiplication (multiply):**
-Positive and negative integers
-Floats
-Edge case: Multiplying by zero
+- Positive and negative integers
+- Floats
+- Edge case: Multiplying by zero
+
 ![Alt text](<Screenshot from 2024-12-19 20-49-19.png>)
 
 **Division (divide):**
-Positive and negative integers
-Floats
-Edge case: Division by zero (raises a ValueError)
+- Positive and negative integers
+- Floats
+- Edge case: Division by zero (raises a ValueError)
+
 ![Alt text](<Screenshot from 2024-12-19 20-49-29.png>)
 
 --- 
@@ -137,3 +141,5 @@ import requests
 response = requests.post('http://localhost:8000/add', json={'a': 10, 'b': 5})
 print(response.json())  # {'result': 15}
 ```
+---
+## Reacoding Link
