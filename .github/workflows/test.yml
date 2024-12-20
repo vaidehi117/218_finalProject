@@ -41,6 +41,7 @@ jobs:
         pip install fastapi httpx playwright requests
         pip install sqlalchemy psycopg2-binary python-dotenv passlib bcrypt
         pip install pydantic[email] pydantic-settings email-validator faker
+        pip install python-dotenv[cli]  # Install the CLI option for python-dotenv
         playwright install chromium
 
     - name: Create .env file
