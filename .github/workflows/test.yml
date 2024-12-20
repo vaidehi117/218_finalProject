@@ -9,14 +9,14 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     services:
       postgres:
         image: postgres:latest
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: test_db
+          POSTGRES_DB: fastapi_db
         ports:
           - 5432:5432
         options: >-
@@ -26,39 +26,35 @@ jobs:
           --health-retries 5
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
     - name: Set up Python 3.11
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
-        
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        # Install testing dependencies
         pip install pytest pytest-cov pytest-asyncio
-        
-        # Install HTTP and API dependencies
         pip install fastapi httpx playwright requests
-        
-        # Install database and authentication dependencies
         pip install sqlalchemy psycopg2-binary python-dotenv passlib bcrypt
-        
-        # Install validation and utilities
         pip install pydantic[email] pydantic-settings email-validator faker
-        
-        # Install browser automation
         playwright install chromium
 
     - name: Create .env file
       run: |
-        echo "TEST_DB_HOST=localhost" >> .env
-        echo "TEST_DB_PORT=5432" >> .env
-        echo "TEST_DB_USER=postgres" >> .env
-        echo "TEST_DB_PASSWORD=postgres" >> .env
-        echo "TEST_DB_NAME=test_db" >> .env
-        echo "SALT=test_salt" >> .env
+        echo "db_host=localhost" >> .env
+        echo "db_user=postgres" >> .env
+        echo "db_password=postgres" >> .env
+        echo "db_name=fastapi_db" >> .env
+        echo "db_port=5432" >> .env
+        echo "salt=aafasdfsdfsdfasdf" >> .env
+
+    - name: Load environment variables
+      run: |
+        python -m dotenv  # This ensures the .env file is loaded correctly
 
     - name: Run unit tests
       run: |
@@ -70,11 +66,12 @@ jobs:
 
     - name: Run database tests
       env:
-        TEST_DB_HOST: localhost
-        TEST_DB_PORT: 5432
-        TEST_DB_USER: postgres
-        TEST_DB_PASSWORD: postgres
-        TEST_DB_NAME: test_db
+        DB_HOST: localhost
+        DB_PORT: 5432
+        DB_USER: postgres
+        DB_PASSWORD: postgres
+        DB_NAME: fastapi_db
+        SALT: aafasdfsdfsdfasdf
       run: |
         pytest test_sqlalchemy.py -v --cov=app
 
