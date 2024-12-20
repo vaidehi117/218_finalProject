@@ -89,3 +89,51 @@ def test_add(a: Number, b: Number, expected: Number) -> None:
     result = add(a, b)
     assert result == expected
 ```
+
+--- 
+## Calculator API
+A robust FastAPI-based calculator service with database integration for calculation history tracking. Features comprehensive testing using pytest, SQLAlchemy for database operations, and FastAPI's TestClient for API testing.
+
+## Features
+- RESTful API endpoints for basic arithmetic operations
+- Database integration for user management and calculation history
+- Comprehensive test coverage
+- Type-safe operations
+- Error handling for edge cases (e.g., division by zero)
+
+## Technical Stack
+- FastAPI
+- SQLAlchemy
+- pytest
+- PostgreSQL
+- Pydantic
+
+1. API Tests
+```
+def test_add_api(client):
+    response = client.post('/add', json={'a': 10, 'b': 5})
+    assert response.status_code == 200
+    assert response.json()['result'] == 15
+```
+2. Database Tests
+```
+def test_insert_calculation(test_user, db_session):
+    calculation = Calculation(
+        user_id=test_user.id,
+        type='addition',
+        value_a=1,
+        value_b=2
+    )
+    db_session.add(calculation)
+    db_session.commit()
+    
+    assert calculation in test_user.calculations
+```
+## Usage Example 
+```
+import requests
+
+# Addition example
+response = requests.post('http://localhost:8000/add', json={'a': 10, 'b': 5})
+print(response.json())  # {'result': 15}
+```
