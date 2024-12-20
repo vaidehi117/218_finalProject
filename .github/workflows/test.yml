@@ -1,32 +1,78 @@
+name: Python Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
     - uses: actions/checkout@v3
 
-    - name: Set up Python
+    - name: Set up Python 3.11
       uses: actions/setup-python@v4
       with:
-        python-version: '3.x'
-
+        python-version: '3.11'
+        
     - name: Install dependencies
       run: |
-        python -m venv venv
-        . venv/bin/activate
-        pip install --upgrade pip
-        pip install -r requirements.txt
-        playwright install
-
-    - name: Set environment variables for testing
+        python -m pip install --upgrade pip
+        pip install pytest pytest-cov playwright requests python-dotenv sqlalchemy passlib faker
+        pip install fastapi pytest[asyncio] httpx
+        playwright install chromium
+        
+    - name: Create .env file
       run: |
-        echo "DB_HOST=${{ secrets.DB_HOST }}" >> $GITHUB_ENV
-        echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
-        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
-        echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
-        echo "SALT=${{ secrets.SALT }}" >> $GITHUB_ENV
+        echo "TEST_DB_HOST=localhost" >> .env
+        echo "TEST_DB_PORT=5432" >> .env
+        echo "TEST_DB_USER=postgres" >> .env
+        echo "TEST_DB_PASSWORD=postgres" >> .env
+        echo "TEST_DB_NAME=test_db" >> .env
+        echo "SALT=test_salt" >> .env
 
     - name: Run unit tests
       run: |
-        . venv/bin/activate
-        pytest tests/unit/
+        pytest test_operations.py test_calculator.py -v --cov=app
+
+    - name: Run API tests
+      run: |
+        pytest test_fastapi_calculator.py -v --cov=app
+
+    - name: Run database tests
+      env:
+        TEST_DB_HOST: localhost
+        TEST_DB_PORT: 5432
+        TEST_DB_USER: postgres
+        TEST_DB_PASSWORD: postgres
+        TEST_DB_NAME: test_db
+      run: |
+        pytest test_sqlalchemy.py -v --cov=app
+
+    - name: Generate coverage report
+      run: |
+        pytest --cov=app --cov-report=xml
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        fail_ci_if_error: true
