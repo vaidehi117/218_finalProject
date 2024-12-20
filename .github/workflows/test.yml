@@ -46,7 +46,7 @@ jobs:
         pip install sqlalchemy psycopg2-binary python-dotenv passlib bcrypt
         
         # Install validation and utilities
-        pip install pydantic[email] email-validator faker
+        pip install pydantic[email] pydantic-settings email-validator faker
         
         # Install browser automation
         playwright install chromium
