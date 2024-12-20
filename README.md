@@ -59,3 +59,33 @@ pythonCopydef test_create_user(db_session, test_user):
     assert test_user.email is not None
     # Add more assertions as needed
 ```
+--- 
+## Python Calculator Testing
+A comprehensive testing suite for a calculator application using pytest, demonstrating best practices in Python testing including parameterized testing and type hinting.
+
+## Features
+- Basic arithmetic operations (add, subtract, multiply, divide)
+- Comprehensive test coverage with pytest
+- Type-annotated test functions
+- Parameterized tests for multiple test cases
+- Error handling for division by zero
+
+## Example Test Code
+```
+@pytest.mark.parametrize(
+    "a, b, expected",
+    [
+        (2, 3, 5),           # Test adding two positive integers
+        (-2, -3, -5),        # Test adding two negative integers
+        (2.5, 3.5, 6.0),     # Test adding two positive floats
+    ],
+    ids=[
+        "add_two_positive_integers",
+        "add_two_negative_integers",
+        "add_two_positive_floats",
+    ]
+)
+def test_add(a: Number, b: Number, expected: Number) -> None:
+    result = add(a, b)
+    assert result == expected
+```
