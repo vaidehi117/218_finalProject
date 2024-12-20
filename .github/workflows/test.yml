@@ -39,11 +39,11 @@ jobs:
         # Install testing dependencies
         pip install pytest pytest-cov pytest-asyncio
         
-        # Install web and API dependencies
-        pip install fastapi httpx playwright
+        # Install HTTP and API dependencies
+        pip install fastapi httpx playwright requests
         
         # Install database and authentication dependencies
-        pip install sqlalchemy psycopg2-binary python-dotenv passlib
+        pip install sqlalchemy psycopg2-binary python-dotenv passlib bcrypt
         
         # Install validation and utilities
         pip install pydantic[email] email-validator faker
