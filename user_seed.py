@@ -19,7 +19,6 @@ from app.models import User
 from app.schemas import UserData
 from app.settings import Settings
 
-# ------------------- SQLAlchemy Logging Configuration Start -------------------
 
 # Configure Logging
 LOG_FILE = 'sql.log'  # Define your SQL log file path here
@@ -40,8 +39,6 @@ file_handler.setFormatter(formatter)
 
 # Add the handler to the SQLAlchemy logger
 sqlalchemy_logger.addHandler(file_handler)
-
-# -------------------- SQLAlchemy Logging Configuration End --------------------
 
 
 # Instantiate settings
@@ -73,17 +70,16 @@ fake = Faker()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def hash_password(plain_password: str, salt: str) -> str:
-    """
-    Hashes a password using bcrypt and an additional salt.
-    """
+
+    #Hashes a password using bcrypt and an additional salt.
+ 
     # Combine the plain password with the salt (acting as a pepper)
     salted_password = plain_password + salt
     return pwd_context.hash(salted_password)
 
 def generate_fake_user(existing_emails: set, existing_usernames: set) -> UserData:
-    """
-    Generates a fake user with unique email and username.
-    """
+    #Generates a fake user with unique email and username.
+   
     while True:
         # Generate a random password
         plain_password = fake.password(length=12)
@@ -101,9 +97,9 @@ def generate_fake_user(existing_emails: set, existing_usernames: set) -> UserDat
             return user_data
 
 def seed_users(count: int):
-    """
-    Seeds the users table with fake data.
-    """
+    
+    #Seeds the users table with fake data.
+
     print("Creating tables if they don't exist...")
     # Create tables if they don't exist
     Base.metadata.create_all(engine)
@@ -149,9 +145,8 @@ def seed_users(count: int):
         print("Session closed.")
 
 def parse_arguments():
-    """
-    Parses command-line arguments.
-    """
+    #Parses command-line arguments.
+    
     parser = argparse.ArgumentParser(description='Seed the users table with fake data.')
     parser.add_argument('-n', '--number', type=int, default=10,
                         help='Number of fake users to generate (default: 10)')

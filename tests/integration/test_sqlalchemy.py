@@ -31,11 +31,7 @@ def test_user_fixture(test_user):
     assert "@" in user.email and "." in user.email.split("@")[-1], "Email format is invalid."
 
 def test_insert_calculation(test_user, db_session):
-    """
-    Test inserting a Calculation related to a User.
-    """
 
-    
     # Act: Create a Calculation instance linked to the test_user
     calculation = Calculation(
         user_id=test_user.id,
